@@ -63,22 +63,12 @@ def create_app():
     db_adapter = SQLAlchemyAdapter(db, User)        # Register the User model
     user_manager = UserManager(db_adapter, app)     # Initialize Flask-User
 
-    #print(user_logged_in)
-    #print(user_logged_in.__dict__)
-
-    #print(user_logged_out)
-    #print(user_logged_out.__dict__)
-
     @user_logged_in.connect_via(app)
     def logged_in(sender, user, **extra):
-        print(user_logged_in)
-        print(user_logged_in.__dict__)
         sender.logger.info("USER LOGGED IN")
 
     @user_logged_out.connect_via(app)
     def logged_out(sender, user, **extra):
-        print(user_logged_out)
-        print(user_logged_out.__dict__)
         sender.logger.info("USER LOGGED OUT")
 
     # The Home page is accessible to anyone
