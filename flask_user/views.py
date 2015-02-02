@@ -321,13 +321,12 @@ def register():
 
     next = request.args.get('next', _endpoint_url(user_manager.after_login_endpoint))
     reg_next = request.args.get('reg_next', _endpoint_url(user_manager.after_register_endpoint))
-
     # Initialize form
     login_form = user_manager.login_form()                      # for login_or_register.html
     register_form = user_manager.register_form(request.form)    # for register.html
 
     # invite token used to determine validity of registeree
-    invite_token = request.values.get("token")
+    invite_token = request.values.get("token", register_form.invite_token.data)
 
     # require invite without a token should disallow the user from registering
     if user_manager.require_invitation and not invite_token:
@@ -471,7 +470,7 @@ def invite():
     user_manager = current_app.user_manager
     db_adapter = user_manager.db_adapter
 
-    next = request.args.get('next',
+    next = request.values.get('next',
                             _endpoint_url(user_manager.after_invite_endpoint))
 
     invite_form = user_manager.invite_form(request.form)
@@ -518,7 +517,8 @@ def invite():
 
         signals \
             .user_sent_invitation \
-            .send(current_app._get_current_object(), user_invite=user_invite)
+            .send(current_app._get_current_object(), user_invite=user_invite,
+                  form=invite_form)
 
         flash(_('Invitation has been sent.'), 'success')
         return redirect(next)

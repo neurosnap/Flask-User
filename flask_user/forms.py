@@ -203,7 +203,7 @@ class LoginForm(Form):
 
         # Handle successful authentication
         if user and user_manager.verify_password(self.password.data, user):
-            return True                         # Successful authentication
+            return True # Successful authentication
 
         # Handle unsuccessful authentication
         if user_manager.enable_username:

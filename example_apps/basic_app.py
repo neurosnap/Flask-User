@@ -9,7 +9,7 @@ from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
 # os.getenv() enables configuration through OS environment variables
 class ConfigClass(object):
     # Flask settings
-    SECRET_KEY =              os.getenv('SECRET_KEY',       'THIS IS AN INSECURE SECRET')
+    SECRET_KEY =              os.getenv('SECRET_KEY',       '\x0e\xb9J\x1a\x07\xce|\xe7,Y\xfb\x8a\xcf\xce\x04\xa4\xa9\x99\x8bw:\xacf9')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',     'sqlite:///basic_app.sqlite')
     CSRF_ENABLED = True
 
@@ -27,7 +27,7 @@ class ConfigClass(object):
 
 def create_app():
     """ Flask application factory """
-    
+
     # Setup Flask app and app.config
     app = Flask(__name__)
     app.config.from_object(__name__+'.ConfigClass')
@@ -94,5 +94,5 @@ def create_app():
 # Start development web server
 if __name__=='__main__':
     app = create_app()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
