@@ -202,8 +202,13 @@ class LoginForm(Form):
             user, user_email = user_manager.find_user_by_email(self.email.data)
 
         # Handle successful authentication
-        if user and user_manager.verify_password(self.password.data, user):
-            return True                         # Successful authentication
+        if user:
+            if user_manager.verify_password(self.password.data, user):
+                return True # Successful authentication
+            else:
+                self.password.errors.append(_('Incorrect Password'))
+        else:
+            self.email.errors.append(_('No account matches this email'))
 
         # Handle unsuccessful authentication
         if user_manager.enable_username:
@@ -211,9 +216,7 @@ class LoginForm(Form):
                 self.username.errors.append(_('Incorrect Username/Email and Password'))
             else:
                 self.username.errors.append(_('Incorrect Username and Password'))
-        else:
-            self.email.errors.append(_('Incorrect Email and Password'))
-        self.password.errors.append('')
+        #self.password.errors.append('')
         return False                                # Unsuccessful authentication
 
 
