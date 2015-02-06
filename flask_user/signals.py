@@ -5,7 +5,6 @@
     :author: Ling Thio (ling.thio@gmail.com)
     :license: Simplified BSD License, see LICENSE.txt for more details."""
 
-#from flask.signals import Namespace
 from blinker import Namespace
 _signals = Namespace()                              # Place Flask-User signals in our own namespace
 
