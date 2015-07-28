@@ -35,7 +35,7 @@ def _flask_user_context_processor():
 class UserManager(object):
     """ This is the Flask-User object that manages the User management process."""
 
-    def __init__(self, db_adapter, app=None,
+    def __init__(self, db_adapter=None, app=None,
                 # Forms
                 add_email_form=forms.AddEmailForm,
                 change_password_form=forms.ChangePasswordForm,
@@ -116,8 +116,10 @@ class UserManager(object):
         if app:
             self.init_app(app)
 
-    def init_app(self, app):
+    def init_app(self, app, db_adapter=None):
         """ Initialize app.user_manager."""
+        if db_adapter is not None:
+            self.db_adapter = db_adapter
         # Bind Flask-USER to app
         app.user_manager = self
         # Flask seems to also support the current_app.extensions[] list
